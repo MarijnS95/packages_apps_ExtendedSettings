@@ -4,8 +4,8 @@ android_app {
     srcs: ["src/**/*.java"],
 
     certificate: "platform",
-    platform_apis: true,
     proprietary: true,
+    sdk_version: "system_current",
 
     static_libs: [
         "android-support-v4",
