@@ -244,7 +244,7 @@ public class ExtendedSettingsFragment extends PreferenceFragment {
             VendorProperties.vendor_adb_network_port("-1");
             getPreferenceScreen().removePreference(findPreference(mADBOverNetworkSwitchPref));
         } else {
-            boolean adbNB = AdbProperties.adb_tcp_port().ifElse(0) > 0;
+            boolean adbNB = AdbProperties.adb_tcp_port().orElse(0) > 0;
             updateADBSummary(adbNB);
         }
         mPrefEditor.apply();
@@ -558,7 +558,7 @@ public class ExtendedSettingsFragment extends PreferenceFragment {
                 ipAddressString = null;
             }
             if (ipAddressString != null) {
-                mAdbOverNetwork.setSummary(ipAddressString + ":" + AdbProperties.adb_tcp_port().ifElse(0));
+                mAdbOverNetwork.setSummary(ipAddressString + ":" + AdbProperties.adb_tcp_port().orElse(0));
                 // Set the switch state accordingly to the Preference
                 mAdbOverNetwork.setChecked(true);
             } else {

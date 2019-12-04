@@ -42,5 +42,5 @@ sysprop_library {
     srcs: ["src/sysprop/VendorProperties.sysprop"],
     property_owner: "Vendor",
     api_packages: ["vendor.sysprop"],
-    vendor: true,
+    proprietary: true,
 }
