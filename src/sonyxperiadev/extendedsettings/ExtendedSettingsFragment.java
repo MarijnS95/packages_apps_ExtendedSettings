@@ -70,8 +70,6 @@ public class ExtendedSettingsFragment extends PreferenceFragment {
     static final String mDispCalSwitchPref = "dispcal_list_switch";
     static final String mGloveModeSwitchPref = "glove_mode_switch";
 
-    private static final long BUILT_IN_DISPLAY_ID_MAIN = SurfaceControl.getPhysicalDisplayIds()[0];
-
     private static FragmentManager mFragmentManager;
     static PreferenceFragment mFragment;
     private SharedPreferences.Editor mPrefEditor;
@@ -417,7 +415,7 @@ public class ExtendedSettingsFragment extends PreferenceFragment {
     }
 
     protected static void performDRS(int resId) {
-        IBinder displayHandle = SurfaceControl.getPhysicalDisplayToken(BUILT_IN_DISPLAY_ID_MAIN);
+        IBinder displayHandle = SurfaceControl.getInternalDisplayToken();
         int width, height;
 
         Log.e(TAG, "Performing DRS for mode " + resId);
