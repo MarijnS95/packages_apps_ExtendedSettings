@@ -40,7 +40,7 @@ import java.util.LinkedList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import android.sysprop.AdbProperties;
+import android.sysprop.AdbServiceProperties;
 import vendor.sysprop.VendorProperties;
 
 /**
@@ -182,7 +182,7 @@ public class ExtendedSettingsFragment extends PreferenceFragment {
                     if ((Boolean) value) {
                         confirmEnablingADBON();
                     } else {
-                        VendorProperties.vendor_adb_network_port("-1");
+                        // VendorProperties.vendor_adb_network_port("-1");
                         updateADBSummary(false);
                     }
                     break;
@@ -241,10 +241,10 @@ public class ExtendedSettingsFragment extends PreferenceFragment {
 
         mUserManager = mFragment.getContext().getSystemService(UserManager.class);
         if (mUserManager.hasUserRestriction(UserManager.DISALLOW_DEBUGGING_FEATURES)) {
-            VendorProperties.vendor_adb_network_port("-1");
+            // VendorProperties.vendor_adb_network_port("-1");
             getPreferenceScreen().removePreference(findPreference(mADBOverNetworkSwitchPref));
         } else {
-            boolean adbNB = AdbProperties.adb_tcp_port().orElse(0) > 0;
+            boolean adbNB = AdbServiceProperties.adb_tcp_port().orElse(0) > 0;
             updateADBSummary(adbNB);
         }
         mPrefEditor.apply();
@@ -558,12 +558,12 @@ public class ExtendedSettingsFragment extends PreferenceFragment {
                 ipAddressString = null;
             }
             if (ipAddressString != null) {
-                mAdbOverNetwork.setSummary(ipAddressString + ":" + AdbProperties.adb_tcp_port().orElse(0));
+                mAdbOverNetwork.setSummary(ipAddressString + ":" + AdbServiceProperties.adb_tcp_port().orElse(0));
                 // Set the switch state accordingly to the Preference
                 mAdbOverNetwork.setChecked(true);
             } else {
                 mAdbOverNetwork.setSummary(R.string.error_connect_to_wifi);
-                VendorProperties.vendor_adb_network_port("-1");
+                // VendorProperties.vendor_adb_network_port("-1");
                 // Set the switch state accordingly to the Preference
                 mAdbOverNetwork.setChecked(false);
             }

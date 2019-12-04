@@ -25,7 +25,7 @@ public class EnableADBONDialog extends DialogFragment {
                 .setCancelable(false)
                 .setPositiveButton(R.string.enable, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        VendorProperties.vendor_adb_network_port("5555");
+                        // VendorProperties.vendor_adb_network_port("5555");
                         ExtendedSettingsFragment.updateADBSummary(true);
                     }
                 })

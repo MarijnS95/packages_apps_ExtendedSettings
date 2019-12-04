@@ -1,4 +1,4 @@
-module: "android.sysprop.AdbProperties"
+module: "android.sysprop.AdbServiceProperties"
 owner: Platform
 
 prop {

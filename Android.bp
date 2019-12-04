@@ -8,7 +8,7 @@ android_app {
     sdk_version: "system_current",
 
     libs: [
-        "AdbProperties",
+        "AdbServiceProperties",
         "VendorProperties",
     ],
 
@@ -30,8 +30,8 @@ android_app {
 }
 
 sysprop_library {
-    name: "AdbProperties",
-    srcs: ["src/sysprop/AdbProperties.sysprop"],
+    name: "AdbServiceProperties",
+    srcs: ["src/sysprop/AdbServiceProperties.sysprop"],
     property_owner: "Platform",
     api_packages: ["android.sysprop"],
     vendor_available: true,
