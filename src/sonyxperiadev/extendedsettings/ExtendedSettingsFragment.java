@@ -275,21 +275,21 @@ public class ExtendedSettingsFragment extends PreferenceFragment {
      * Note: This is the "legal" Android way to get the available display resolutions.
      *       Use only when the HWC2 implementation will be complete.
      */
-    protected static String getAvailableResolutions(int dispId) {
-        IBinder dispHandle = SurfaceControl.getPhysicalDisplayToken(dispId);
-        SurfaceControl.PhysicalDisplayInfo[] displayCfgs =
-                SurfaceControl.getDisplayConfigs(dispHandle);
-        int currentCfgNo = SurfaceControl.getActiveConfig(dispHandle);
-        String ret;
+    // protected static String getAvailableResolutions(int dispId) {
+    //     IBinder dispHandle = SurfaceControl.getPhysicalDisplayToken(dispId);
+    //     SurfaceControl.PhysicalDisplayInfo[] displayCfgs =
+    //             SurfaceControl.getDisplayConfigs(dispHandle);
+    //     int currentCfgNo = SurfaceControl.getActiveConfig(dispHandle);
+    //     String ret;
 
-        SurfaceControl.PhysicalDisplayInfo currentCfg = displayCfgs[currentCfgNo];
-        Log.d(TAG, "Current resolution: " + currentCfg.width + "x" +
-                    currentCfg.height + " @ " + currentCfg.refreshRate +
-                    "hz, " + currentCfg.density + "DPI");
-        ret = currentCfg.width + "x" + currentCfg.height + "@" +
-                currentCfg.refreshRate + "hz";
-        return ret;
-    }
+    //     SurfaceControl.PhysicalDisplayInfo currentCfg = displayCfgs[currentCfgNo];
+    //     Log.d(TAG, "Current resolution: " + currentCfg.width + "x" +
+    //                 currentCfg.height + " @ " + currentCfg.refreshRate +
+    //                 "hz, " + currentCfg.density + "DPI");
+    //     ret = currentCfg.width + "x" + currentCfg.height + "@" +
+    //             currentCfg.refreshRate + "hz";
+    //     return ret;
+    // }
 
     /*
      * sysfs_readResolutions - Read resolutions from sysfs framebuffer node
@@ -399,65 +399,68 @@ public class ExtendedSettingsFragment extends PreferenceFragment {
         return 0;
     }
 
-    protected static void performRRS(String modeString) {
-        try (FileWriter sysfsFile = new FileWriter(SYSFS_FB_MODESET);
-             BufferedWriter writer = new BufferedWriter(sysfsFile)) {
+    // protected static void performRRS(String modeString) {
+    //     try (FileWriter sysfsFile = new FileWriter(SYSFS_FB_MODESET);
+    //          BufferedWriter writer = new BufferedWriter(sysfsFile)) {
 
-            SystemProperties.set("debug.sf.nobootanimation", "1");
-            SystemProperties.set("ctl.stop", "surfaceflinger");
+    //         SystemProperties.set("debug.sf.nobootanimation", "1");
+    //         SystemProperties.set("ctl.stop", "surfaceflinger");
 
-            writer.write(modeString + '\n');
+    //         writer.write(modeString + '\n');
 
-            SystemProperties.set("ctl.start", "surfaceflinger");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
+    //         SystemProperties.set("ctl.start", "surfaceflinger");
+    //     } catch (Exception e) {
+    //         e.printStackTrace();
+    //     }
+    // }
 
     protected static void performDRS(int resId) {
-        IBinder displayHandle = SurfaceControl.getInternalDisplayToken();
-        int width, height;
+        // SDK apps can't access the SurfaceControl for a display.
+        // https://developer.android.com/reference/android/view/SurfaceControl.Transaction
 
-        Log.e(TAG, "Performing DRS for mode " + resId);
+        // IBinder displayHandle = SurfaceControl.getInternalDisplayToken();
+        // int width, height;
 
-        DisplayParameters dpCur = sysfs_getCurrentResolution();
-        DisplayParameters dpNew = sDp.get(resId);
-        if (dpNew.isOnlyRefreshRateChange(dpCur)) {
-            performRRS(dpNew.modeString);
-            return;
-        }
+        // Log.e(TAG, "Performing DRS for mode " + resId);
 
-        if (displayHandle == null) {
-            Log.e(TAG, "Cannot get an handle to the current display.");
-            return;
-        }
+        // DisplayParameters dpCur = sysfs_getCurrentResolution();
+        // DisplayParameters dpNew = sDp.get(resId);
+        // if (dpNew.isOnlyRefreshRateChange(dpCur)) {
+        //     performRRS(dpNew.modeString);
+        //     return;
+        // }
 
-        int curMode = SurfaceControl.getActiveConfig(displayHandle);
-        SurfaceControl.PhysicalDisplayInfo[] displayCfgs =
-                SurfaceControl.getDisplayConfigs(displayHandle);
+        // if (displayHandle == null) {
+        //     Log.e(TAG, "Cannot get an handle to the current display.");
+        //     return;
+        // }
 
-        width = displayCfgs[resId].width;
-        height = displayCfgs[resId].height;
+        // int curMode = SurfaceControl.getActiveConfig(displayHandle);
+        // SurfaceControl.PhysicalDisplayInfo[] displayCfgs =
+        //         SurfaceControl.getDisplayConfigs(displayHandle);
 
-        /* This is an hack for incomplete HWC2 implementation */
-        if ((resId == curMode) && (resId < 1)) {
-            SurfaceControl.openTransaction();
-            SurfaceControl.setActiveConfig(displayHandle, curMode + 1);
-            SurfaceControl.closeTransaction();
-        }
-        /* END */
+        // width = displayCfgs[resId].width;
+        // height = displayCfgs[resId].height;
 
-        SurfaceControl.openTransaction();
+        // /* This is an hack for incomplete HWC2 implementation */
+        // if ((resId == curMode) && (resId < 1)) {
+        //     SurfaceControl.openTransaction();
+        //     SurfaceControl.setActiveConfig(displayHandle, curMode + 1);
+        //     SurfaceControl.closeTransaction();
+        // }
+        // /* END */
 
-        SurfaceControl.setActiveConfig(displayHandle, resId);
-        SurfaceControl.setDisplaySize(displayHandle, width, height);
+        // SurfaceControl.openTransaction();
 
-        SurfaceControl.closeTransaction();
+        // SurfaceControl.setActiveConfig(displayHandle, resId);
+        // SurfaceControl.setDisplaySize(displayHandle, width, height);
 
-        SystemProperties.set("debug.sf.nobootanimation", "1");
+        // SurfaceControl.closeTransaction();
 
-        SystemProperties.set("ctl.restart", "surfaceflinger");
-        /* ToDo: Set nobootanimation back to 0 after SF restart */
+        // SystemProperties.set("debug.sf.nobootanimation", "1");
+
+        // SystemProperties.set("ctl.restart", "surfaceflinger");
+        // /* ToDo: Set nobootanimation back to 0 after SF restart */
     }
 
     protected int initializeDispCalListPreference(ListPreference resPref) {
