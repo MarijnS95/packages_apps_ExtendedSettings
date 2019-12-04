@@ -13,6 +13,8 @@ import android.os.PowerManager;
  * Based on Googles fire missile dialog
  * Originally for applying the 8MP camera setting and currently unused, but
  * might come in handy again
+ *
+ * Note that this needs android.permission.REBOOT
  */
 public class confirmRebootChangeDialog extends DialogFragment {
     @Override
