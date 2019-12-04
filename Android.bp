@@ -1,0 +1,26 @@
+android_app {
+    name: "ExtendedSettings",
+
+    srcs: ["src/**/*.java"],
+
+    certificate: "platform",
+    platform_apis: true,
+    privileged: true,
+    proprietary: true,
+
+    static_libs: [
+        "android-support-v4",
+        "android-support-v7-appcompat",
+        "android-support-v7-preference",
+        "android-support-v7-recyclerview",
+        "android-support-v13",
+        "android-support-v14-preference",
+    ],
+
+    resource_dirs: ["res"],
+
+    optimize: {
+        proguard_flags_files: ["proguard-rules.pro"],
+    },
+
+}
