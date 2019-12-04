@@ -40,6 +40,8 @@ import java.util.LinkedList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import android.sysprop.AdbProperties;
+import vendor.sysprop.VendorProperties;
 
 /**
  * A {@link PreferenceFragment} that presents a set of application settings. On
@@ -63,8 +65,6 @@ public class ExtendedSettingsFragment extends PreferenceFragment {
     private static final String[] SYSFS_GLOVE_MODE_PATHS = new String[]{ "lge_touch/glove_mode", "clearpad/glove" };
     private static final String SYSFS_TOUCH_GLOVE_MODE = "/sys/devices/virtual/input/%s";
 
-    static final String PREF_ADB_NETWORK_COM = "vendor.adb.network.port.es";
-    private static final String PREF_ADB_NETWORK_READ = "service.adb.tcp.port";
     private static final String mADBOverNetworkSwitchPref = "adbon_switch";
     private static final String mDynamicResolutionSwitchPref = "dynres_list_switch";
     static final String mDispCalSwitchPref = "dispcal_list_switch";
@@ -184,7 +184,7 @@ public class ExtendedSettingsFragment extends PreferenceFragment {
                     if ((Boolean) value) {
                         confirmEnablingADBON();
                     } else {
-                        SystemProperties.set(PREF_ADB_NETWORK_COM, "-1");
+                        VendorProperties.vendor_adb_network_port("-1");
                         updateADBSummary(false);
                     }
                     break;
@@ -243,10 +243,10 @@ public class ExtendedSettingsFragment extends PreferenceFragment {
 
         mUserManager = mFragment.getContext().getSystemService(UserManager.class);
         if (mUserManager.hasUserRestriction(UserManager.DISALLOW_DEBUGGING_FEATURES)) {
-            SystemProperties.set(PREF_ADB_NETWORK_COM, "-1");
+            VendorProperties.vendor_adb_network_port("-1");
             getPreferenceScreen().removePreference(findPreference(mADBOverNetworkSwitchPref));
         } else {
-            boolean adbNB = SystemProperties.getInt(PREF_ADB_NETWORK_READ, 0) > 0;
+            boolean adbNB = AdbProperties.adb_tcp_port().ifElse(0) > 0;
             updateADBSummary(adbNB);
         }
         mPrefEditor.apply();
@@ -557,12 +557,12 @@ public class ExtendedSettingsFragment extends PreferenceFragment {
                 ipAddressString = null;
             }
             if (ipAddressString != null) {
-                mAdbOverNetwork.setSummary(ipAddressString + ":" + SystemProperties.getInt(PREF_ADB_NETWORK_READ, 0));
+                mAdbOverNetwork.setSummary(ipAddressString + ":" + AdbProperties.adb_tcp_port().ifElse(0));
                 // Set the switch state accordingly to the Preference
                 mAdbOverNetwork.setChecked(true);
             } else {
                 mAdbOverNetwork.setSummary(R.string.error_connect_to_wifi);
-                SystemProperties.set(PREF_ADB_NETWORK_COM, "-1");
+                VendorProperties.vendor_adb_network_port("-1");
                 // Set the switch state accordingly to the Preference
                 mAdbOverNetwork.setChecked(false);
             }

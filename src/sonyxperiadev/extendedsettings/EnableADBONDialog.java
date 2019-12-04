@@ -8,6 +8,8 @@ import android.os.Bundle;
 import android.os.SystemProperties;
 import android.support.v14.preference.SwitchPreference;
 
+import vendor.sysprop.VendorProperties;
+
 /**
  * Created by myself5 on 9/6/16.
  * Dialog for enabling ADB Over Network.
@@ -23,7 +25,7 @@ public class EnableADBONDialog extends DialogFragment {
                 .setCancelable(false)
                 .setPositiveButton(R.string.enable, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        SystemProperties.set(ExtendedSettingsFragment.PREF_ADB_NETWORK_COM, "5555");
+                        VendorProperties.vendor_adb_network_port("5555");
                         ExtendedSettingsFragment.updateADBSummary(true);
                     }
                 })

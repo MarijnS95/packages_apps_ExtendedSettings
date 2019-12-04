@@ -1,0 +1,10 @@
+module: "android.sysprop.AdbProperties"
+owner: Platform
+
+prop {
+    api_name: "adb_tcp_port"
+    type: Integer
+    scope: Public
+    access: Readonly
+    prop_name: "service.adb.tcp.port"
+}

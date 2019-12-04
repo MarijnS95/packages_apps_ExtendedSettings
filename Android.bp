@@ -7,6 +7,11 @@ android_app {
     proprietary: true,
     sdk_version: "system_current",
 
+    libs: [
+        "AdbProperties",
+        "VendorProperties",
+    ],
+
     static_libs: [
         "android-support-v4",
         "android-support-v7-appcompat",
@@ -22,4 +27,20 @@ android_app {
         proguard_flags_files: ["proguard-rules.pro"],
     },
 
+}
+
+sysprop_library {
+    name: "AdbProperties",
+    srcs: ["src/sysprop/AdbProperties.sysprop"],
+    property_owner: "Platform",
+    api_packages: ["android.sysprop"],
+    vendor_available: true,
+}
+
+sysprop_library {
+    name: "VendorProperties",
+    srcs: ["src/sysprop/VendorProperties.sysprop"],
+    property_owner: "Vendor",
+    api_packages: ["vendor.sysprop"],
+    vendor: true,
 }

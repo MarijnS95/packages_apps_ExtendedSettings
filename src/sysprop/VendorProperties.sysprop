@@ -1,0 +1,10 @@
+module: "vendor.sysprop.VendorProperties"
+owner: Vendor
+
+prop {
+    api_name: "vendor_adb_network_port"
+    type: String
+    scope: Public
+    access: ReadWrite
+    prop_name: "vendor.adb.network.port.es"
+}
