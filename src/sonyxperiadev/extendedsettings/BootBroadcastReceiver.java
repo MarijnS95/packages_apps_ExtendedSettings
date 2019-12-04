@@ -28,9 +28,8 @@ public class BootBroadcastReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         try {
-            DevicePolicyManager polMan = (DevicePolicyManager)
-                    context.getSystemService(Context.DEVICE_POLICY_SERVICE);
-            UserManager userMan = UserManager.get(context);
+            DevicePolicyManager polMan = context.getSystemService(DevicePolicyManager.class);
+            UserManager userMan = context.getSystemService(UserManager.class);
             int encryptionStatus = polMan.getStorageEncryptionStatus();
 
             /* If the device is being encrypted, do NOT touch ANYTHING */

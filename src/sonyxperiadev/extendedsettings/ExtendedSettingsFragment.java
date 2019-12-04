@@ -585,7 +585,7 @@ public class ExtendedSettingsFragment extends PreferenceFragment {
                 if (performGloveMode(enabled)) {
                     // Enable SHOW_TOUCHES to make the user aware of this
                     // feature being enabled.
-                    Settings.System.putInt(getContext().getContentResolver(), Settings.System.SHOW_TOUCHES, enabled ? 1 : 0);
+                    Settings.System.putInt(getContext().getContentResolver(), /* Settings.System.SHOW_TOUCHES */ "show_touches", enabled ? 1 : 0);
 
                     gloveModePref.setChecked(enabled);
                 }
